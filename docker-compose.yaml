@@ -1,0 +1,29 @@
+version: "3"
+services:
+ ergastdb:
+  image: frjaraur/f1api:database
+  container_name: ergastdb
+  build: ergastdb/
+  environment:
+    MYSQL_ROOT_PASSWORD: f1
+    MYSQL_DATABASE: ergastdb
+  expose:
+    - "3306"
+
+
+ front:
+  image: frjaraur/f1api:front
+  ports:
+    - '8000:80'
+  volumes:
+    - ./webroot:/var/www/html
+    - ./php/api:/php/api
+    - ./logs:/var/log/apache2
+  links:
+    - ergastdb:ergastdb
+
+    
+#docker-compose up --build -d
+#docker-compose build --force-rm
+#docker-compose up -d
+
